@@ -19,6 +19,8 @@
 3. Запустить тесты `pytest`
 4. В тестах создан метод в классе для первой простой капчи, все последующие проверки на то что я не робот,
 прокликиваются вручную.
+5. Создать папку allure-report `allure generate ./allure-results -c -o ./allure-report`
+6. Вызвать отображение allure-results `allure serve ./allure-results`
 
 ### Браузер
 Chrome: Браузер для UI-тестирования ChromeDriver: 
