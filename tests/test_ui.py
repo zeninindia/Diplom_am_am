@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import allure
 from selenium.webdriver.common.action_chains import ActionChains
 from dotenv import load_dotenv
-from Pages.ui_class import UiPage
+from pages.ui_class import UiPage
 load_dotenv()
 
 base_url = os.getenv("BASE_URL")
@@ -18,7 +18,7 @@ base_url = os.getenv("BASE_URL")
     "переход по кнопкам, проверку текста на кнопках и соответствие URL.")
 @allure.feature("Бесплатный доступ")
 @allure.severity(allure.severity_level.NORMAL)
-def test_buttons_free(driver) -> None:
+def test_buttons_free(driver)  -> None:
     """
     Тест проверки кнопок бесплатного доступа.
 

@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from dotenv import load_dotenv
-from Pages.p_class import ApiPage
+from pages.api_class import ApiPage
 
 load_dotenv()
 
