@@ -35,7 +35,7 @@ class ApiPage:
         }
 
     @allure.step("Поиск фильмов по названию")
-    def search_movies1(self, name: str) -> tuple[dict, int]:
+    def search_movies1(self) -> tuple[dict, int]:
         """
         Поиск фильмов по названию.
 

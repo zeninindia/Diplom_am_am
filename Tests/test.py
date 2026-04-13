@@ -1,5 +1,8 @@
 import allure
 from typing import Dict, Any, List, Optional
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 @allure.title("Тест поиска фильмов по имени")
@@ -19,10 +22,9 @@ def test_search_movies(api: Any) -> None:
     - None: функция выполняет проверки через assert и
     выводит данные через print, не возвращая значений.
     """
-    name = 'я'
 
     with allure.step("Выполняем запрос на поиск фильмов"):
-        response_body, status_code = api.search_movies1(name)
+        response_body, status_code = api.search_movies1()
 
     with allure.step("Проверяем, что статус-код ответа равен 200"):
         assert status_code == 200
@@ -41,7 +43,7 @@ def test_search_movies(api: Any) -> None:
     with allure.step(
             "Проверяем совпадение ID фильма в первом элементе списка"):
         assert first_movie['id'] == docs[0]['id']
-        print(f"ID : {docs[0]['id']}")
+
 
     with allure.step("Проверяем наличие постера и выводим его URL"):
         assert 'poster' in first_movie
