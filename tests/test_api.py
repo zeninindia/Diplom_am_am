@@ -1,5 +1,5 @@
 import allure
-from typing import Dict, Any, List, Optional
+from typing import Any
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -22,9 +22,10 @@ def test_search_movies(api: Any) -> None:
     - None: функция выполняет проверки через assert и
     выводит данные, не возвращая значений.
     """
+    film_name = os.getenv("FILM_NAME")
 
     with allure.step("Выполняем запрос на поиск фильмов"):
-        response_body, status_code = api.search_movies1()
+        response_body, status_code = api.search_movies1(film_name)
 
     with allure.step("Проверяем, что статус-код ответа равен 200"):
         assert status_code == 200
@@ -37,12 +38,12 @@ def test_search_movies(api: Any) -> None:
 
     with allure.step(
             "Проверяем, что имя фильма содержит искомое значение"):
-        assert os.getenv('FILM_NAME') in first_movie['name']
+        assert film_name in first_movie['name']
 
     with allure.step("Проверяем наличие постера и выводим его URL"):
         assert 'poster' in first_movie
         poster_url = first_movie["poster"]
-        print(f"Вот картинка фильма Я: {poster_url}")
+        print(f"Вот картинка фильма {film_name}: {poster_url}")
 
 
 @allure.title("Тест получения списка жанров по имени")
@@ -102,19 +103,19 @@ def test_get_random_movie(api: Any) -> None:
     with allure.step("Проверяем, что статус-код ответа равен 200"):
         assert response.status_code == 200
 
-    with allure.step("Выводим и проверяем JSON-ответ"):
+    with allure.step("Выводим JSON-ответ"):
         lest = response.json()
-        movie_name = lest["alternativeName"]
 
-    with allure.step(
-            "Проверяем наличие и валидность постера фильма"):
+    with allure.step("Проверяем наличие и валидность постера фильма"):
         try:
-            'poster' in lest and lest['poster'] is not None
+            assert 'poster' in lest and lest['poster'] is not None
             film_poster = lest['poster']
             assert 'url' in film_poster
-        except:
-            pass
-        print(lest['poster'])
+        except AssertionError:
+            allure.attach(
+                str(lest),
+                name="Ответ API (ошибка валидации постера)",
+                attachment_type=allure.attachment_type.JSON)
 
 
 @allure.title(

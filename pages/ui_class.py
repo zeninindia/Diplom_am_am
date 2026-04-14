@@ -1,15 +1,14 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from dotenv import load_dotenv
 import allure
 from selenium.common.exceptions import (
+    TimeoutException,
     StaleElementReferenceException,
     ElementNotInteractableException,
-    ElementClickInterceptedException
-)
+    ElementClickInterceptedException)
 from selenium.webdriver.remote.webelement import WebElement
 
 load_dotenv()
@@ -50,8 +49,12 @@ class UiPage:
                 EC.element_to_be_clickable(
                     (By.CSS_SELECTOR, ".CheckboxCaptcha-Button")))
             captcha_button.click()
-        except:
-            pass
+        except TimeoutException:
+            print("Кнопка капчи не появилась в течение заданного времени")
+        except ElementNotInteractableException:
+            print("Кнопка найдена, но не кликабельна")
+        except Exception as e:
+            print(f"Произошла непредвиденная ошибка: {e}")
 
     @allure.step("Получение текущего URL страницы")
     def get_current_url(self, url=None) -> str:
@@ -174,8 +177,7 @@ class UiPage:
                             with allure.step(
                                     "Повторное ожидание кликабельности"):
                                 element = short_wait.until(
-                                    EC.element_to_be_clickable((by, selector))
-                                )
+                                    EC.element_to_be_clickable((by, selector)))
 
                             with allure.step(
                                     "Альтернативный клик через ActionChains"):
@@ -193,7 +195,12 @@ class UiPage:
                         except Exception as unexpected_e:
 
                             with allure.step(
-                                    "Неожиданная ошибка в альтернативном"):
+                                    f"Неожиданная ошибка в альтернативном"
+                                    f"клике (попытка"
+                                    f"{attempt}): {unexpected_e}"):
+                                print(f"Unexpected error in"
+                                      f"alternative click ("
+                                      f"attempt {attempt}): {unexpected_e}")
                                 continue
 
         # Если все попытки исчерпаны, выбрасываем исключение

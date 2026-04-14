@@ -28,7 +28,7 @@ class ApiPage:
         }
 
     @allure.step("Поиск фильмов по названию")
-    def search_movies1(self) -> tuple[dict, int]:
+    def search_movies1(self, film_name) -> tuple[dict, int]:
         """
         Поиск фильмов по названию.
 
@@ -50,7 +50,7 @@ class ApiPage:
             params = {
                 'page': 1,
                 'limit': 10,
-                'query': os.getenv("FILM_NAME")
+                'query': film_name
             }
 
         with allure.step("Отправка GET‑запроса для поиска фильмов"):

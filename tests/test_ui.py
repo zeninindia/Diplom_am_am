@@ -1,10 +1,7 @@
 import os
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 import allure
-from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from dotenv import load_dotenv
 from pages.ui_class import UiPage
 load_dotenv()
@@ -18,7 +15,7 @@ base_url = os.getenv("BASE_URL")
     "переход по кнопкам, проверку текста на кнопках и соответствие URL.")
 @allure.feature("Бесплатный доступ")
 @allure.severity(allure.severity_level.NORMAL)
-def test_buttons_free(driver)  -> None:
+def test_buttons_free(driver) -> None:
     """
     Тест проверки кнопок бесплатного доступа.
 
@@ -200,10 +197,8 @@ def test_neg_test_search(driver) -> None:
     with allure.step("Получить элемент с сообщением об ошибке"):
         error_message_element = page.search_by_css(error_element)
         error_message_text: str = error_message_element.text
-
-    with ((allure.step("Проверить сообщение об ошибке."))):
-        assert ("К сожалению, по вашему запросу ничего не найдено..."
-                )in error_message_text
+        assert ("К сожалению, "
+                "по вашему запросу ничего не найдено") in error_message_text
 
 
 @allure.title("Тест поиска актёра")
