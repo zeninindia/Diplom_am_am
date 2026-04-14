@@ -189,7 +189,8 @@ def test_neg_test_search(driver) -> None:
     with allure.step("Пройти капчу"):
         page.capcha()
 
-    with allure.step("Ввести в поле поиска название не существующего фильма "):
+    with allure.step(
+            "Ввести в поле поиска название не существующего фильма "):
         page.input_txt(film_name, input_film_name, by=By.CSS_SELECTOR)
 
     with allure.step("Нажать кнопку поиска"):
@@ -200,9 +201,9 @@ def test_neg_test_search(driver) -> None:
         error_message_element = page.search_by_css(error_element)
         error_message_text: str = error_message_element.text
 
-    with (allure.step("Проверить сообщение об ошибке.")):
-        assert ("К сожалению,"
-                "по вашему запросу ничего не найдено...") in error_message_text
+    with ((allure.step("Проверить сообщение об ошибке."))):
+        assert ("К сожалению, по вашему запросу ничего не найдено..."
+                )in error_message_text
 
 
 @allure.title("Тест поиска актёра")

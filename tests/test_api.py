@@ -106,13 +106,15 @@ def test_get_random_movie(api: Any) -> None:
         lest = response.json()
         movie_name = lest["alternativeName"]
 
-    with allure.step("Проверяем наличие и валидность постера фильма"):
+    with allure.step(
+            "Проверяем наличие и валидность постера фильма"):
         try:
             'poster' in lest and lest['poster'] is not None
             film_poster = lest['poster']
             assert 'url' in film_poster
         except:
             pass
+        print(lest['poster'])
 
 
 @allure.title(
