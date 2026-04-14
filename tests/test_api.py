@@ -114,15 +114,6 @@ def test_get_random_movie(api: Any) -> None:
         except:
             pass
 
-    # with allure.step(
-    #         "Проверяем наличие постера фильма"):
-    #     film_poster = lest["poster"]
-    #     assert 'poster' in lest
-    #     assert film_poster is not None
-    #     assert 'url' in film_poster
-    #     poster_url = film_poster
-    #     print(poster_url)
-
 
 @allure.title(
     "Тест получения информации о номинациях и наградах")
