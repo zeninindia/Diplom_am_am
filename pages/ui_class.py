@@ -192,7 +192,8 @@ class UiPage:
                                 continue
                         except Exception as unexpected_e:
 
-                            with allure.step("Неожиданная ошибка в альтернативном"):
+                            with allure.step(
+                                    "Неожиданная ошибка в альтернативном"):
                                 continue
 
         # Если все попытки исчерпаны, выбрасываем исключение
