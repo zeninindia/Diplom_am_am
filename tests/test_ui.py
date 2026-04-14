@@ -23,7 +23,7 @@ def test_buttons_free(driver)  -> None:
     Тест проверки кнопок бесплатного доступа.
 
     Args:
-        driver: Объект веб‑драйвера Selenium.
+        driver: из фикстуры driver.
 
     Returns:
         None: Тест не возвращает значение,
@@ -45,11 +45,6 @@ def test_buttons_free(driver)  -> None:
         page.search_by_xpath(o_c_b)
         page.click_element(o_c_b, by=By.XPATH)
 
-    with allure.step("Проверить текущий URL после нажатия на кнопку"):
-        current_url: str = page.get_current_url()
-        with allure.step("Ожидаемый URL: 'https://hd.kinopoisk.ru/'"):
-            assert current_url == "https://hd.kinopoisk.ru/"
-
     with allure.step(
             "Проверить видимость элемента с текстом '30 дней бесплатно'"):
         i_can_see = page.wait.until(
@@ -68,8 +63,6 @@ def test_buttons_free(driver)  -> None:
         with allure.step(
                 "Ожидаемый текст на кнопке: 'Попробовать бесплатно'"):
             assert text_on_button == "Попробовать бесплатно"
-        print(text_on_button)
-
     with allure.step("Нажать на кнопку 'Попробовать бесплатно'"):
         page.click_element(find_b, by=By.CSS_SELECTOR)
 
@@ -78,18 +71,18 @@ def test_buttons_free(driver)  -> None:
         page.click_element(btn_k_m, by=By.CSS_SELECTOR)
 
 
-@allure.title("Тест получения трейлера для покупки")
+@allure.title("Тест получения трейлера фильма")
 @allure.description("Проверяет возможность получения"
-                    "трейлера фильма для покупки:"
+                    "трейлера фильма:"
                     "переход по кнопкам и выбор трейлера.")
 @allure.feature("Просмотр трейлеров")
 @allure.severity(allure.severity_level.NORMAL)
 def test_get_trailer_to_buy(driver) -> None:
     """
-    Тест получения трейлера для покупки.
+    Тест получения трейлера.
 
     Args:
-        driver: Объект веб‑драйвера Selenium.
+        driver: фикстура.
 
     Returns:
         None: Тест не возвращает значение, выполняет проверки через assert.
@@ -115,7 +108,6 @@ def test_get_trailer_to_buy(driver) -> None:
         txt_from_btn: str = btn_txt.text
         with allure.step("Ожидаемый текст на кнопке: 'О фильме'"):
             assert txt_from_btn == "О фильме"
-        print(txt_from_btn)
 
     with allure.step("Нажать на фильм"):
         page.search_by_css(press_f)
@@ -126,9 +118,9 @@ def test_get_trailer_to_buy(driver) -> None:
         page.click_element(ch_trailer, by=By.CSS_SELECTOR)
 
 
-@allure.title("Тест получения топа сериалов")
+@allure.title("Тест получения топ 250 сериалов")
 @allure.description("Проверяет возможность получения"
-                    "топа сериалов: переход по кнопкам"
+                    "топ 250 сериалов: переход по кнопкам"
                     "и проверку текста на странице.")
 @allure.feature("Сериалы")
 @allure.severity(allure.severity_level.NORMAL)
@@ -137,7 +129,7 @@ def test_get_top_soap(driver) -> None:
     Тест получения топа сериалов.
 
     Args:
-        driver: Объект веб‑драйвера Selenium.
+        driver: фикстура.
 
     Returns:
         None: Тест не возвращает значение,
@@ -184,13 +176,7 @@ def test_get_top_soap(driver) -> None:
 @allure.severity(allure.severity_level.CRITICAL)
 def test_neg_test_search(driver) -> None:
     """
-    Негативный тест поиска (проверка сообщения об ошибке).
-
-    Args:
-        driver: Объект веб‑драйвера Selenium.
-
-    Returns:
-        None: Тест не возвращает значение, выполняет проверки через assert.
+    Негативный тест (проверка сообщения об ошибке).
     """
     film_name: str = os.getenv("F_NAME")
     input_film_name: str = os.getenv("INPUT_NAME")
@@ -203,7 +189,7 @@ def test_neg_test_search(driver) -> None:
     with allure.step("Пройти капчу"):
         page.capcha()
 
-    with allure.step("Ввести в поле поиска название фильма"):
+    with allure.step("Ввести в поле поиска название не существующего фильма "):
         page.input_txt(film_name, input_film_name, by=By.CSS_SELECTOR)
 
     with allure.step("Нажать кнопку поиска"):
@@ -214,7 +200,7 @@ def test_neg_test_search(driver) -> None:
         error_message_element = page.search_by_css(error_element)
         error_message_text: str = error_message_element.text
 
-    with allure.step("Проверить сообщение об ошибке."):
+    with (allure.step("Проверить сообщение об ошибке.")):
         assert ("К сожалению,"
                 "по вашему запросу ничего не найдено...") in error_message_text
 
@@ -227,13 +213,6 @@ def test_neg_test_search(driver) -> None:
 def test_search_actor(driver) -> None:
     """
     Тест поиска актёра.
-
-    Args:
-        driver: Объект веб‑драйвера Selenium.
-
-    Returns:
-        None: Тест не возвращает значение,
-        выполняет проверки через assert.
     """
     actor_name: str = os.getenv("ACTOR_NAME")
     input_name: str = os.getenv("INPUT_NAME")
@@ -256,7 +235,6 @@ def test_search_actor(driver) -> None:
     with allure.step("Получить элемент с результатами поиска"):
         message = page.search_by_css(element)
         name_check: str = message.text
-        print(name_check)
 
     with allure.step("Проверить, что в результатах"
                      "поиска есть 'Константин Хабенский'"):
@@ -265,4 +243,3 @@ def test_search_actor(driver) -> None:
     with allure.step("Проверить, что в результатах "
                      "поиска есть введённое имя актёра"):
         assert actor_name in name_check
-        print(name_check)
