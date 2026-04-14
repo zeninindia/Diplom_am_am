@@ -28,9 +28,10 @@ Chrome: Браузер для UI-тестирования ChromeDriver:
 
 ### File .env
 1. Создайте файл `.env` в корне проекта
-2. Заполните переменные своими данными:
+2. Заполните его данными из `.env.example`:
 - URL=https://api.poiskkino.dev/
-- KEY=your_api_key_here
+- KEY=your_api_key_here (здесь ваш ключ из API документации, 
+- который можно получить здесь [API](https://api.poiskkino.dev) )
 
 
 ### Список установок:
