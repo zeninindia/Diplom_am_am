@@ -45,7 +45,7 @@ def test_buttons_free(driver) -> None:
     with allure.step(
             "Проверить видимость элемента с текстом '30 дней бесплатно'"):
         i_can_see = page.wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, i_c_s))
+            EC.visibility_of_element_located((By.XPATH, i_c_s))
         )
         with allure.step(
                 "Проверить, что в тексте элемента есть"
@@ -101,7 +101,7 @@ def test_get_trailer_to_buy(driver) -> None:
         page.click_element(sh_btn, by=By.CSS_SELECTOR)
 
     with allure.step("Проверить текст на кнопке 'О фильме'"):
-        btn_txt = page.search_by_css(button_txt)
+        btn_txt = page.search_by_xpath(button_txt)
         txt_from_btn: str = btn_txt.text
         with allure.step("Ожидаемый текст на кнопке: 'О фильме'"):
             assert txt_from_btn == "О фильме"
